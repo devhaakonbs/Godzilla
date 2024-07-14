@@ -1,4 +1,5 @@
 package me.bamle.godzillabot;
+import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.User;
@@ -24,8 +25,12 @@ public class Godzilla extends ListenerAdapter {
     };
 
     public static void main(String[] args) {
+        Dotenv dotenv = Dotenv.load();
+
+        String token = dotenv.get("TOKEN");
+
         Godzilla main = new Godzilla();
-        JDABuilder jdaBuilder = JDABuilder.create("", Arrays.asList(gatewayIntents)).addEventListeners(main);
+        JDABuilder jdaBuilder = JDABuilder.create(token, Arrays.asList(gatewayIntents)).addEventListeners(main);
         jdaBuilder.addEventListeners(new TestCmd());
         try {
             JDA jda = jdaBuilder.build().awaitReady();
